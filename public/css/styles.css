@@ -54,7 +54,7 @@ main {
   margin: 0;
   text-align: center;
 }
-h1 {
+h1, h2 {
   margin: 20px 0;
   text-align: left;
   font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
