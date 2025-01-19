@@ -1,6 +1,211 @@
+@import url(https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Jura:wght@700&family=Open+Sans&family=Roboto&display=swap);
+/* Color Palette:  https://coolors.co/palette/cad2c5-84a98c-52796f-354f52-2f3e46 */
+
 /******* Change Box Model ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+html {
+  font-size: 14px;
+}
+
+/********** Start Base CSS **********/
+body {
+  font-family: 'Open Sans', Arial, 'Times New Roman';
+}
+
+header {
+  margin: 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
+  font-size: 2.5rem;
+}
+#login {
+  font-size: 1rem;
+}
+a {
+  text-decoration: none;
+  color: #2f3e46;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #2f3e46;
+  color: white;
+  font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
+  font-size: 1rem;
+}
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0px;
+  margin: 10px 0;
+  width: 85%;
+  list-style: none;
+}
+
+/********** Main **********/
+main {
+  /* max-width: 95%; */
+  margin: 0;
+  text-align: center;
+}
+h1 {
+  margin: 20px 0;
+  text-align: left;
+  font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
+  font-size: 1.3rem;
+}
+.delorean {
+  position: relative;
+}
+.delorean img {
+  width: 80%;
+  max-width: 400px;
+  height: auto;
+  justify-self: center;
+}
+.delorean-desc {
+  position: absolute;
+  top: 2.5%;
+  left: 2.5%;
+  background-color: rgb(255, 255, 255, .75);
+  color: #52796F;
+  border-radius: 2px;
+  text-align: left;
+}
+.delorean-desc p {
+  line-height: 1.25rem;
+  margin: 5px;
+}
+h3 {
+  font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
+  line-height: 1rem;
+  font-size: 1.25rem;
+  margin: 10px 10px 0 0;
+}
+.button {
+  display: inline-block;
+  padding: 10px 10px;
+  background-color: #52796F;
+  color: white;
+  opacity: 1;
+  border-radius: 2px;
+  box-shadow: 1px 1px 2.5px #2f3e46;
+} 
+
+.reviews {
+  text-align: left;
+}
+.reviews h1, .upgrades h1 {
+  margin-bottom: 10px;
+}
+.reviews ul {
+  margin: 0;
+  padding: 0 0 0 20px;
+  line-height: 2rem;
+}
+
+.upgrades-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+}
+.upgrades-grid p {
+  margin: 0;
+}
+.upgrades div {
+  text-align: center;
+  justify-items: center;
+}
+.upgrade-wrapper {
+  background-color: #52796F;
+  padding: 5px;
+  margin: 0;
+  border: solid 2px #2f3e46;
+  height: 75px;
+  width: 170px;
+}
+.upgrade-wrapper img {
+  max-width: 50px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/********** Footer **********/
+footer {
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+
+
+
+
+@media screen and (min-width: 800px) {
+  html {
+    font-size: 16px;
+  }
+  body {
+    background-image: url("/images/site/small_check.jpg");
+  }
+  #wrapper {
+    margin: 10px;
+    max-width: 960px;
+    background-color: white;
+    justify-self: center;
+    padding: 10px;
+    border: solid 5px #52796F;
+    border-radius: 10px;
+  }
+
+  .delorean img {
+    width: 80%;
+    max-width: 600px;
+  }
+  .delorean-desc {
+    padding: 20px;
+    top: 10%;
+    left: 7.5%;
+  }
+  .delorean-desc p {
+    padding-bottom: 10px;
+  }
+
+  .rev-up-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 25px;
+  }
+  .upgrades {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+  .reviews {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+
+  .upgrade-wrapper {
+    height: 90px;
+    width: 225px;
+  }
+  .upgrade-wrapper img {
+    max-width: 100px;
+  }
+
+  footer {
+    font-size: 1rem;
+    margin-top: 30px;
+    margin-bottom: -15px;
+  }
+
 }
