@@ -35,9 +35,11 @@ nav {
   display: flex;
   justify-content: center;
   background-color: #2f3e46;
-  color: white;
   font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
   font-size: 1rem;
+}
+nav a {
+  color: white;
 }
 nav ul {
   display: flex;
