@@ -40,7 +40,6 @@ Util.buildClassificationGrid = async function(data){
         +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
         +' on CSE Motors" /></a>'
         grid += '<div class="namePrice">'
-        grid += '<hr />'
         grid += '<h2>'
         grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
         + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
@@ -48,6 +47,7 @@ Util.buildClassificationGrid = async function(data){
         grid += '</h2>'
         grid += '<span>$' 
         + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+        grid += '<hr />'
         grid += '</div>'
         grid += '</li>'
       })
@@ -57,5 +57,41 @@ Util.buildClassificationGrid = async function(data){
     }
     return grid
 }
+
+
+/* **************************************
+* Build the details view HTML
+* ************************************ */
+Util.buildVehicleDetailView = async function(data){
+  let detail = ''
+  if(data){
+    // Enter HTML with calls to the query results from the inventory table in db
+    detail += `<h1>${data.inv_year} ${data.inv_make} ${data.inv_model}</h1>`
+    detail += `<section class="vehicle-listing">`
+    detail += `<img class="vehicle-image" src="${data.inv_image}" alt="Image of ${data.inv_year} ${data.inv_make} ${data.inv_model}" />` // Full size img inv_image
+    detail += `<div class="vehicle-details">`
+    detail += `<h2 class="vehicle-price">Sale Price: $${new Intl.NumberFormat('en-US').format(data.inv_price)}</h2>` // Price inv_price
+    detail += `<p><b>Year:</b> ${data.inv_year}</p>`
+    detail += `<p><b>Make:</b> ${data.inv_make}</p>`
+    detail += `<p><b>Model:</b> ${data.inv_model}</p>`
+    detail += `<p><b>Mileage:</b> ${new Intl.NumberFormat('en-US').format(data.inv_miles)}</p>` // Mileage inv_miles
+    detail += `<p><b>Color:</b> ${data.inv_color}</p>` // Color inv_color
+    detail += `<p><b>Seller's Description:</b> ${data.inv_description}</p>` // Description inv_description 
+    detail += `</div>`
+    detail += `</section>`
+  } else { 
+    detail += '<p class="notice">Sorry, we could not find details for this vehicle.</p>'
+  }
+  return detail
+}
+
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
 
 module.exports = Util

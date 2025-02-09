@@ -141,6 +141,50 @@ h3 {
   margin: 0 auto;
 }
 
+#inv-display {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+  width: fit-content;
+}
+#inv-display h2 {
+  text-align: center;
+}
+
+/********** Vehicle Details Views **********/
+.vehicle-listing {
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+.vehicle-price {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #CAD2C5;
+}
+.vehicle-image {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  width: 90%;
+  max-width: 400px;
+  height: auto;
+  justify-self: center;
+}
+.vehicle-details {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+.vehicle-details p {
+  margin: 0 0 5px 0;
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+
+
 /********** Footer **********/
 footer {
   font-size: 1rem;
@@ -150,13 +194,26 @@ footer {
 
 
 
-
+/********** For Larger/Desktop Screen **********/
 @media screen and (min-width: 800px) {
   html {
     font-size: 16px;
   }
   body {
     background-image: url("/images/site/small_check.jpg");
+  }
+  /* main {
+    max-width: 700px;
+  } */
+  header {
+    margin: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
+    font-size: 2.5rem;
+  }
+  nav {
+    font-size: .8rem;
   }
   #wrapper {
     margin: 10px;
@@ -203,10 +260,22 @@ footer {
   .upgrade-wrapper img {
     max-width: 100px;
   }
+  /* .vehicle-image {
+    max-width: 325px;
+  } */
+  .vehicle-image {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+  .vehicle-details {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+
 
   footer {
     font-size: 1rem;
-    margin-top: 30px;
+    margin-top: 25px;
     margin-bottom: -15px;
   }
 

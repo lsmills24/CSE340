@@ -12,6 +12,7 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
+const utilities = require("./utilities/")
 
 /* ***********************
  * View Engine and Templates
@@ -25,9 +26,40 @@ app.set("layout", "./layouts/layout") // not at views root
  *************************/
 app.use(static)
 // Index Route
-app.get("/", baseController.buildHome)
+app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", inventoryRoute)
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({status: 404, message: "Oops! Don't know how you got here but umm..."})
+})
+
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+* Global Error Handling
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}" - ${err.message}`)
+
+  // Checks that status is a valid number (defaults to 500 if undefined/invalid)
+  let status = (typeof err.status === "number" && err.status >= 400 && err.status < 600) 
+    ? err.status 
+    : 500 
+
+  let message = status === 404 
+    ? err.message 
+    : "Oh no! There was a crash. Maybe try a different route?"
+
+  res.status(status).render("errors/error", {
+    title: `${status} - Server Error`,
+    message,
+    nav
+  })
+})
+
 
 /* ***********************
  * Local Server Information
