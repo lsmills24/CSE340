@@ -7,7 +7,7 @@ const Util = {}
 Util.getNav = async function (req, res, next) {
     let data = await invModel.getClassifications()
     let list = "<ul>"
-    list += '<li><a href="/" title="Home page">Home</></li>'
+    list += '<li><a href="/" title="Home page">Home</a></li>'
     data.rows.forEach((row) => {
         list += "<li>"
         list +=
@@ -68,7 +68,7 @@ Util.buildVehicleDetailView = async function(data){
     // Enter HTML with calls to the query results from the inventory table in db
     detail += `<h1>${data.inv_year} ${data.inv_make} ${data.inv_model}</h1>`
     detail += `<section class="vehicle-listing">`
-    detail += `<img class="vehicle-image" src="${data.inv_image}" alt="Image of ${data.inv_year} ${data.inv_make} ${data.inv_model}" />` // Full size img inv_image
+    detail += `<img class="vehicle-image" src="${data.inv_image}" alt="Image of ${data.inv_year} ${data.inv_make} ${data.inv_model}">` // Full size img inv_image
     detail += `<div class="vehicle-details">`
     detail += `<h2 class="vehicle-price">Sale Price: $${new Intl.NumberFormat('en-US').format(data.inv_price)}</h2>` // Price inv_price
     detail += `<p><b>Year:</b> ${data.inv_year}</p>`
