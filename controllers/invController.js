@@ -27,7 +27,7 @@ invCont.buildByVehicleId = utilities.handleErrors(async function (req, res, next
   const data = await invModel.getVehicleByInvId(inv_id)
 
   if (!data) {
-    return next({ status: 500, message: "Database Error" })
+    return next({ status: 404 })// , message: "Vehicle Not Found" })
   }
 
   const detail = await utilities.buildVehicleDetailView(data)

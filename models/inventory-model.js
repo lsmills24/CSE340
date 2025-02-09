@@ -36,7 +36,7 @@ async function getVehicleByInvId(inv_id) {
     )
     return data.rows.length ? data.rows[0] : null 
   } catch (error) {
-    console.error("Database error" + error)
+    // console.error("Database error" + error)
     throw new Error("Something went wrong. Please try again later.")
   }
 }

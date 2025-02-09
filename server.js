@@ -53,11 +53,19 @@ app.use(async (err, req, res, next) => {
     ? err.message 
     : "Oh no! There was a crash. Maybe try a different route?"
 
-  res.status(status).render("errors/error", {
-    title: `${status} - Server Error`,
-    message,
-    nav
-  })
+  if (status === 500){
+    res.status(status).render("errors/error", {
+      title: `${status} - Server Error`,
+      message,
+      nav
+    })
+  } else{
+    res.status(status).render("errors/error", {
+      title: `${status} - Page Not Found`,
+      message,
+      nav
+    })
+  }
 })
 
 
