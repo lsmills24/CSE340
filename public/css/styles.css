@@ -56,6 +56,12 @@ main {
   margin: 0;
   text-align: center;
 }
+
+.notice {
+  color: red;
+  text-align: left;
+}
+
 h1, h2 {
   margin: 20px 0;
   text-align: left;
@@ -184,6 +190,36 @@ h3 {
 }
 
 
+/********** Login View **********/
+.login_form {
+  margin: 0 auto;
+  background-color: #CAD2C5;
+  padding: 20px 0;
+  width: 300px;
+  border: 2px solid #2f3e46;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px #2f3e46;
+}
+.login_form div {
+  margin: 0 25px;
+  text-align: left;
+}
+.login_form input[type=text] {
+  width: 100%;
+  border-radius: 1px;
+  padding: 2px;
+  margin-bottom: 7.5px;
+}
+.login_form input[type=submit] {
+  margin: 12.5px 0 0 0;
+  padding: 3px 25px;
+  text-align: center;
+  background-color: #2f3e46;
+  border-radius: 15px;
+  color: white;
+  font-family: 'Open Sans', Arial, 'Times New Roman';
+}
+
 
 /********** Footer **********/
 footer {
@@ -271,7 +307,9 @@ footer {
     grid-column: 2/3;
     grid-row: 1/2;
   }
-
+  .login_form {
+    width: 80%;
+  }
 
   footer {
     font-size: 1rem;

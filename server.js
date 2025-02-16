@@ -13,6 +13,33 @@ const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities/")
+const session = require("express-session")
+const pool = require("./database/")
+const accountRoute = require("./routes/accountRoute")
+
+
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+//Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
 
 /* ***********************
  * View Engine and Templates
@@ -27,8 +54,10 @@ app.set("layout", "./layouts/layout") // not at views root
 app.use(static)
 // Index Route
 app.get("/", utilities.handleErrors(baseController.buildHome))
-// Inventory routes
+// Inventory Route
 app.use("/inv", inventoryRoute)
+// Account Route
+app.use("/account", accountRoute)
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: "Oops! Don't know how you got here but umm..."})
@@ -44,26 +73,26 @@ app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}" - ${err.message}`)
 
-  // Checks that status is a valid number (defaults to 500 if undefined/invalid)
-  let status = (typeof err.status === "number" && err.status >= 400 && err.status < 600) 
-    ? err.status 
-    : 500 
+// Checks that status is a valid number (defaults to 500 if undefined/invalid)
+let status = (typeof err.status === "number" && err.status >= 400 && err.status < 600) 
+  ? err.status 
+  : 500 
 
-  let message = status === 404 
-    ? err.message 
-    : "Oh no! There was a crash. Maybe try a different route?"
+let message = status === 404 
+  ? err.message 
+  : "Oh no! There was a crash. Maybe try a different route?"
 
-  if (status === 500){
-    res.status(status).render("errors/error", {
-      title: `${status} - Server Error`,
-      message,
-      nav
-    })
+if (status === 500){
+  res.status(status).render("errors/error", {
+    title: `${status} - Server Error`,
+    message,
+    nav
+  })
   } else{
-    res.status(status).render("errors/error", {
-      title: `${status} - Page Not Found`,
-      message,
-      nav
+  res.status(status).render("errors/error", {
+    title: `${status} - Page Not Found`,
+    message,
+    nav
     })
   }
 })
