@@ -204,7 +204,7 @@ h3 {
   margin: 0 25px;
   text-align: left;
 }
-.login_form input[type=text] {
+.login_form input[type=text], .login_form input[type=password] {
   width: 100%;
   border-radius: 1px;
   padding: 2px;
@@ -220,6 +220,33 @@ h3 {
   font-family: 'Open Sans', Arial, 'Times New Roman';
 }
 
+/********** Register View **********/
+#pass_req {
+  font-size: .7rem;
+  color: red;
+  text-align: center;
+}
+#pass_req p {
+  margin-bottom: 0;
+  text-decoration: underline;
+}
+#pass_req ul {
+  margin-top: 2px;
+  padding: 0;
+}
+#pass_req ul li {
+  list-style: none;
+  margin: 0;
+}
+#password {
+  border: 1.5px solid #2f3e46;
+  border-radius: 15px;
+  padding: 3px;
+  font-size: .6rem;
+  width: 7em;
+  text-align: center;
+  cursor: default;
+}
 
 /********** Footer **********/
 footer {

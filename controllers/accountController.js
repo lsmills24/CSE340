@@ -12,6 +12,18 @@ async function buildLogin(req, res, next) {
     })
 }
 
+/* ****************************************
+*  Deliver registration view
+* *************************************** */
+async function buildRegister(req, res, next) {
+    let nav = await utilities.getNav()
+    res.render("account/register", {
+      title: "Register",
+      nav,
+    })
+}
+
+
 
 /* ****************************************
  * Middleware For Handling Errors
@@ -21,4 +33,4 @@ async function buildLogin(req, res, next) {
 accountController.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 
-module.exports = { buildLogin }
+module.exports = { buildLogin, buildRegister }

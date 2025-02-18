@@ -1,0 +1,48 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+
+<% messages() %>
+
+<form action="#" class="login_form">
+    <div>
+        <label for="account_firstname">First Name</label><br>
+        <input type="text" id="account_firstname" name="account_firstname"><br>
+        <label for="account_lastname">Last Name</label><br>
+        <input type="text" id="account_lastname" name="account_lastname"><br>
+        <label for="account_email">Email Address</label><br>
+        <input type="text" id="account_email" name="account_email"><br>
+        <label for="account_password">Password</label><br>
+        <input type="password" id="account_password" name="account_password"><br>
+        <span id="password">Show Password</span>
+    </div>
+    <input type="submit" value="Register">
+</form>
+<div id="pass_req">
+    <p>Password must meet the following requirements:</p>
+    <ul>
+        <li>Must be at least 12 characters in length</li>
+        <li>Must contain at least 1 capital letter</li>
+        <li>Must contain at least 1 number</li>
+        <li>Must contain at least 1 special character (e.g. !@#)</li>
+    </ul>
+</div>
+
+
+<script>
+    const pswdBtn = document.querySelector("#password");
+    pswdBtn.addEventListener("click", function() {
+        const pswdInput = document.getElementById("account_password");
+        const type = pswdInput.getAttribute("type");
+        if (type == "password") {
+            pswdInput.setAttribute("type", "text");
+            pswdBtn.innerHTML = "Hide Password";
+        } else {
+            pswdInput.setAttribute("type", "password");
+            pswdBtn.innerHTML = "Show Password";
+        }
+    });
+</script>
