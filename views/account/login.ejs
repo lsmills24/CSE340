@@ -8,12 +8,40 @@
 <% messages() %>
 
 <form action="#" class="login_form">
-    <div>
+    <div id="log_form">
         <label for="account_email">Email:</label><br>
-        <input type="text" id="account_email" name="account_email"><br>
+        <input type="email" id="account_email" name="account_email" required><br>
         <label for="account_password">Password:</label><br>
-        <input type="text" id="account_password" name="account_password"><br>
+        <div class="password-container">
+            <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+            <img src="/images/site/hidden.png" alt="Toggle Password" class="toggle-password" id="togglePassword">
+        </div>        <!-- Password requirements -->
+        <div id="pass_req">
+            <p>Password must meet the following requirements:</p>
+            <ul>
+                <li>At least 12 characters in length</li>
+                <li>At least 1 capital letter</li>
+                <li>At least 1 number</li>
+                <li>At least 1 special character (e.g. !@#)</li>
+            </ul>
+        </div>
     </div>
     <input type="submit" value="Login">
 </form>
 <p>No account? <a href="/account/register">Sign-up</a></p>
+
+
+<script>
+    const passwordInput = document.getElementById("account_password");
+    const toggleIcon = document.getElementById("togglePassword");
+
+    toggleIcon.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.src = "/images/site/hidden.png"; // Eye icon for showing
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.src = "/images/site/hidden.png"; // Your hidden icon
+        }
+    });
+</script>

@@ -7,42 +7,54 @@
 
 <% messages() %>
 
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
 <form action="/account/register" class="login_form" method="post"> 
-    <div>
+    <div id="reg_form">
         <label for="account_firstname">First Name</label><br>
-        <input type="text" id="account_firstname" name="account_firstname"><br>
+        <input type="text" id="account_firstname" name="account_firstname" required><br>
         <label for="account_lastname">Last Name</label><br>
-        <input type="text" id="account_lastname" name="account_lastname"><br>
+        <input type="text" id="account_lastname" name="account_lastname" required><br>
         <label for="account_email">Email Address</label><br>
-        <input type="text" id="account_email" name="account_email"><br>
+        <input type="email" id="account_email" name="account_email" required placeholder="Enter a valid email address"><br>
         <label for="account_password">Password</label><br>
-        <input type="password" id="account_password" name="account_password"><br>
-        <span id="password">Show Password</span>
+        <!-- Toggle password -->
+        <div class="password-container">
+            <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+            <img src="/images/site/hidden.png" alt="Toggle Password" class="toggle-password" id="togglePassword">
+        </div>
+        <div id="pass_req">
+            <p>Password must meet the following requirements:</p>
+            <ul>
+                <li>At least 12 characters in length</li>
+                <li>At least 1 capital letter</li>
+                <li>At least 1 number</li>
+                <li>At least 1 special character (e.g. !@#)</li>
+            </ul>
+        </div>
     </div>
     <input type="submit" value="Register">
-</form>
-<div id="pass_req">
-    <p>Password must meet the following requirements:</p>
-    <ul>
-        <li>Must be at least 12 characters in length</li>
-        <li>Must contain at least 1 capital letter</li>
-        <li>Must contain at least 1 number</li>
-        <li>Must contain at least 1 special character (e.g. !@#)</li>
-    </ul>
-</div>
+</form> 
+
 
 
 <script>
-    const pswdBtn = document.querySelector("#password");
-    pswdBtn.addEventListener("click", function() {
-        const pswdInput = document.getElementById("account_password");
-        const type = pswdInput.getAttribute("type");
-        if (type == "password") {
-            pswdInput.setAttribute("type", "text");
-            pswdBtn.innerHTML = "Hide Password";
+    const passwordInput = document.getElementById("account_password");
+    const toggleIcon = document.getElementById("togglePassword");
+
+    toggleIcon.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.src = "/images/site/hidden.png"; // Eye icon for showing
         } else {
-            pswdInput.setAttribute("type", "password");
-            pswdBtn.innerHTML = "Show Password";
+            passwordInput.type = "password";
+            toggleIcon.src = "/images/site/hidden.png"; // Your hidden icon
         }
     });
 </script>
