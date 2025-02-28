@@ -5,9 +5,17 @@
     } %>
 
 
-<% messages() %>
+<%- messages() %>
 
-<form action="#" class="login_form">
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<form action="/account/login" class="login_form" method="post">
     <div id="log_form">
         <label for="account_email">Email:</label><br>
         <input type="email" id="account_email" name="account_email" required><br>

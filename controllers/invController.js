@@ -6,7 +6,7 @@ const invCont = {}
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
-invCont.buildByClassificationId = async function (req, res, next) {
+invCont.buildByClassificationId = utilities.handleErrors(async function (req, res, next) {
   const classification_id = req.params.classificationId
   const data = await invModel.getInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data)
@@ -16,8 +16,9 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    errors: null,
   })
-} 
+}) 
 
 /* ***************************
  *  Build vehicle details by Id number
@@ -42,6 +43,58 @@ invCont.buildByVehicleId = utilities.handleErrors(async function (req, res, next
   })
 })
 
+/* ****************************************
+*  Build inventory management add view
+* *************************************** */
+invCont.buildInvManagement = utilities.handleErrors(async function (req, res, next) {
+  let nav = await utilities.getNav()
+    res.render("./inventory/management", {
+      title: "Manage Inventory",
+      nav,
+      errors: null,
+  })
+}) 
+
+/* ****************************************
+*  Build add classification form view
+* *************************************** */
+invCont.buildAddClass = utilities.handleErrors(async function (req, res, next) {
+  let nav = await utilities.getNav()
+    res.render("./inventory/add-classification", {
+      title: "Add Vehicle Classification",
+      nav,
+      errors: null,
+  })
+}) 
+
+/* ****************************************
+*  Process add classification to call function from invModel
+* *************************************** */
+invCont.addClassification = utilities.handleErrors(async function (req, res) {
+    const { classification_name } = req.body
+  
+    let addResult = await invModel.addClassification(classification_name)
+    let nav = await utilities.getNav()
+  
+    if (addResult) {
+      req.flash("notice", `Thank you for adding ${classification_name} vehicles!`)
+      let nav = await utilities.getNav()
+      res.render("inventory/management", {
+        title: "Add Vehicle Classification",
+        nav,
+        errors: null,
+      })
+    } else {
+      req.flash("notice", "Sorry, we could not add that classification.")
+      let nav = await utilities.getNav()
+      res.status(501).render("inventory/management", {
+        title: "Add Vehicle Classification",
+        nav,
+        errors: null,
+      })
+    }
+})
+
 
 /* ****************************************
  * Middleware For Handling Errors
@@ -54,4 +107,4 @@ invCont.triggerError = utilities.handleErrors(async function (req, res, next) {
   throw new Error("Intentional 500 Server Error")
 })
 
-module.exports = invCont 
+module.exports = invCont

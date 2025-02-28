@@ -60,6 +60,8 @@ main {
 .notice {
   color: red;
   text-align: left;
+  list-style: none;
+  /* list-style: upper-roman; */
 }
 
 h1, h2 {
@@ -200,7 +202,7 @@ h3 {
   border-radius: 8px;
   box-shadow: 2px 2px 5px #2f3e46;
 }
-#log_form, #reg_form {
+#log_form, #reg_form, #class_form {
   margin: 0 25px;
   text-align: left;
 }
@@ -273,10 +275,29 @@ h3 {
   opacity: 1;
 }
 input:required:invalid, input:focus:invalid {
-  background: rgba(255, 0, 0, 0.2);
+  /* background: rgba(255, 0, 0, 0.2); */
+  box-shadow: 1px 1px 5px rgba(255, 0, 0, 0.6);
 }
 input:required:valid {
-  background: rgb(0, 128, 0, 0.2);
+  /* background: rgb(0, 128, 0, 0.2); */
+  /* box-shadow: 1px 1px 5px rgba(0, 128, 0, 0.6); */
+  box-shadow: 2px 2px 5px #2f3e46;
+}
+
+/********** Management View & New Class/Inv **********/
+.manage_inv { 
+  margin: 0 auto;
+  margin-bottom: 100px;
+  list-style: none;
+  width: 400px;
+}
+.manage_inv li {
+  margin: 25px;
+  background: #CAD2C5;
+  padding: 20px 0;
+  border: 2px solid #2f3e46;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px #2f3e46;
 }
 
 

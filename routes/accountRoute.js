@@ -15,6 +15,21 @@ router.post(
     regValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount)
 )
+// Temp. to Process the login attempt and redirect to page that says "login process"
+router.post(
+    "/login",
+    (req, res) => {
+      res.status(200).send('login process')
+    }
+)
+// router.post(
+//     "/login",
+//     regValidate.loginRules(), 
+//     regValidate.checkLoginData,
+//     (req, res) => {
+//       res.status(200).send('login process')
+//     }
+// )
 
 
 

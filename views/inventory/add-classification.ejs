@@ -1,0 +1,28 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+
+<%- messages() %>
+
+<% if (errors) { %> <!-- Make sure to add "errors: null," in the invController when calling the function to build this page or it will crash -->
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>  
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+
+<form action="/inv/add-classification" class="login_form" method="post">
+    <div id="class_form">
+        <label for="classification_name">New Classification Name:</label><br>
+        <input type="text" id="classification_name" name="classification_name" required pattern="^[A-Za-z]+$"><br>
+        <div id="pass_req">
+            <p>Cannot contain a space or special character of any kind</p>
+        </div>
+    </div>
+    <input type="submit" value="Add">
+</form>
