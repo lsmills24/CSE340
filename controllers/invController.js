@@ -6,19 +6,46 @@ const invCont = {}
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
+// invCont.buildByClassificationId = utilities.handleErrors(async function (req, res, next) {
+//   const classification_id = req.params.classificationId
+//   const data = await invModel.getInventoryByClassificationId(classification_id)
+//   const grid = await utilities.buildClassificationGrid(data)
+//   let nav = await utilities.getNav()
+//   const className = data[0].classification_name
+//   res.render("./inventory/classification", {
+//     title: className + " vehicles",
+//     nav,
+//     grid,
+//     errors: null,
+//   })
+// }) 
 invCont.buildByClassificationId = utilities.handleErrors(async function (req, res, next) {
-  const classification_id = req.params.classificationId
-  const data = await invModel.getInventoryByClassificationId(classification_id)
-  const grid = await utilities.buildClassificationGrid(data)
-  let nav = await utilities.getNav()
-  const className = data[0].classification_name
-  res.render("./inventory/classification", {
-    title: className + " vehicles",
-    nav,
-    grid,
-    errors: null,
-  })
-}) 
+  const classification_id = req.params.classificationId;
+  try { 
+    const data = await invModel.getInventoryByClassificationId(classification_id);
+    if (!data || data.length === 0) { // Checks to see if there are any vehicles in the selected classification
+      let nav = await utilities.getNav();
+      return res.render("./inventory/classification", {
+        title: "No Vehicles Found",
+        nav,
+        grid: '<p>No vehicles found under this classification yet.</p><br><br><br>', 
+        errors: null,
+      });
+    }
+    const grid = await utilities.buildClassificationGrid(data);
+    let nav = await utilities.getNav();
+    const className = data[0].classification_name;
+    res.render("./inventory/classification", {
+      title: `${className} vehicles`,
+      nav,
+      grid,
+      errors: null,
+    });
+  } catch (error) {
+    console.error(`Error in buildByClassificationId for ID ${classification_id}:`, error);
+    next(error); // Passes any errors to middleware
+  }
+});
 
 /* ***************************
  *  Build vehicle details by Id number
