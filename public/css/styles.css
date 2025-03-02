@@ -202,15 +202,16 @@ h3 {
   border-radius: 8px;
   box-shadow: 2px 2px 5px #2f3e46;
 }
-#log_form, #reg_form, #class_form {
+#log_form, #reg_form, #class_form, #inv_form {
   margin: 0 25px;
   text-align: left;
 }
-.login_form input[type=text], .login_form input[type=password], .login_form input[type=email] {
+.login_form input[type=text], .login_form input[type=password], .login_form input[type=email], .login_form input[type=image], .login_form input[type=number], .login_form select {
   width: 100%;
   border-radius: 1px;
-  padding: 2px;
+  padding: 2px 5px;
   margin-bottom: 7.5px;
+  font-family: 'Open Sans', Arial, 'Times New Roman';
 }
 .login_form input[type=submit] {
   margin: 12.5px 0 0 0;
@@ -219,8 +220,31 @@ h3 {
   background-color: #2f3e46;
   border-radius: 15px;
   color: white;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 25.6px;
+  border-radius: 1px;
+  padding: 2px;
+  margin-bottom: 7.5px;
+  border: 2px solid #2f3e46;
+  border-radius: 8px;
+}
+textarea#inv_description {
+  width: 100%; 
+  max-width: 500px;
+  height: 100px; 
+  padding: 5px; 
+  resize: vertical; 
+  box-sizing: border-box;
+  border-radius: 1px;
+  border: 2px solid #2f3e46;
   font-family: 'Open Sans', Arial, 'Times New Roman';
 }
+
 
 /********** Register View **********/
 #pass_req {
@@ -274,11 +298,11 @@ h3 {
 .toggle-password:hover {
   opacity: 1;
 }
-input:required:invalid, input:focus:invalid {
+input:required:invalid, input:focus:invalid, textarea#inv_description:invalid, #classificationList:invalid {
   /* background: rgba(255, 0, 0, 0.2); */
   box-shadow: 1px 1px 5px rgba(255, 0, 0, 0.6);
 }
-input:required:valid {
+input:required:valid, input:focus:valid, textarea#inv_description:valid, #classificationList:valid {
   /* background: rgb(0, 128, 0, 0.2); */
   /* box-shadow: 1px 1px 5px rgba(0, 128, 0, 0.6); */
   box-shadow: 2px 2px 5px #2f3e46;

@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+const { validationResult } = require("express-validator");
 
 const invCont = {}
 
@@ -120,6 +121,118 @@ invCont.addClassification = utilities.handleErrors(async function (req, res) {
         errors: null,
       })
     }
+})
+
+/* ****************************************
+*  Build add inventory form view
+* *************************************** */
+invCont.buildAddInventory = utilities.handleErrors(async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const classificationList = await utilities.buildClassificationList();
+    res.render("./inventory/add-inventory", {
+      title: "Add Vehicle to Inventory",
+      nav,
+      classificationList: classificationList,
+      errors: null,
+      inv_make: "",
+      inv_model: "",
+      inv_year: "",
+      inv_description: "",
+      inv_image: "/images/vehicles/no-image.png", // Default no-image
+      inv_thumbnail: "/images/vehicles/no-image-tn.png", // Default no-thumbnail
+      inv_price: "",
+      inv_miles: "",
+      inv_color: "",
+      classification_id: "",
+  })
+}) 
+
+/* ****************************************
+*  Add inventory to db by calling addInventory in inventory-model
+* *************************************** */
+invCont.addInventory = utilities.handleErrors(async function (req, res) {
+  let nav = await utilities.getNav()
+  let { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
+      
+  if (!inv_image || inv_image.trim() === "") { // Sets default image paths if they're left empty
+      inv_image = "/images/vehicles/no-image.jpg";
+  }
+  if (!inv_thumbnail || inv_thumbnail.trim() === "") {
+      inv_thumbnail = "/images/vehicles/no-image-tn.jpg";
+  }
+  
+  try {
+    const result = await invModel.addInventory({
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id,
+    });
+    if (result) {
+        req.flash("notice", "Vehicle added successfully!");
+        res.redirect("/inv/");
+    } else {
+        throw new Error("Failed to add vehicle to inventory")
+    }
+  } catch (error) {
+    console.error("Error adding inventory:", error);
+    const classificationList = await utilities.buildClassificationList(classification_id);
+    req.flash("notice", "Error adding inventory. Please try again.");
+    res.render("inventory/add-inventory", {
+      title: "Add New Inventory",
+      nav,
+      classificationList,
+      errors: null,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+    })
+  }
+})
+
+/* ****************************************
+*  Process add inventory after validation
+* *************************************** */
+invCont.processAddInventory = utilities.handleErrors(async function (req, res) {
+  const errors = validationResult(req)
+  const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
+
+  if (!errors.isEmpty()) {
+    console.log("Validation errors:", errors.array())
+    const classificationList = await utilities.buildClassificationList(classification_id)
+    req.flash("notice", "Failed to add to inventory. Please correct the error(s) below:")
+    let nav = await utilities.getNav()
+    return res.render("inventory/add-inventory", {
+      title: "Add Vehicle to Inventory",
+      nav,
+      errors,
+      classificationList,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+    })
+  }
+  await invCont.addInventory(req, res)
 })
 
 
