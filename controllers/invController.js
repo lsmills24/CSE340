@@ -108,14 +108,14 @@ invCont.addClassification = utilities.handleErrors(async function (req, res) {
       req.flash("notice", `Thank you for adding ${classification_name} vehicles!`)
       let nav = await utilities.getNav()
       res.render("inventory/management", {
-        title: "Add Vehicle Classification",
+        title: "Manage Inventory",
         nav,
         errors: null,
       })
     } else {
       req.flash("notice", "Sorry, we could not add that classification.")
       let nav = await utilities.getNav()
-      res.status(501).render("inventory/management", {
+      res.status(501).render("inventory/add-classification", {
         title: "Add Vehicle Classification",
         nav,
         errors: null,
