@@ -155,10 +155,10 @@ invCont.addInventory = utilities.handleErrors(async function (req, res) {
   let { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
       
   if (!inv_image || inv_image.trim() === "") { // Sets default image paths if they're left empty
-      inv_image = "/images/vehicles/no-image.jpg";
+      inv_image = "/images/vehicles/no-image.png";
   }
   if (!inv_thumbnail || inv_thumbnail.trim() === "") {
-      inv_thumbnail = "/images/vehicles/no-image-tn.jpg";
+      inv_thumbnail = "/images/vehicles/no-image-tn.png";
   }
   
   try {
