@@ -84,6 +84,7 @@ validate.loginRules = () => {
     // valid email is required and cannot already exist in the database
     body("account_email")
     .trim()
+    .notEmpty()
     .isEmail()
     .normalizeEmail() // refer to validator.js docs
     .withMessage("A valid email is required.")
@@ -98,13 +99,6 @@ validate.loginRules = () => {
     body("account_password")
       .trim()
       .notEmpty()
-      .isStrongPassword({
-        minLength: 12,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-      })
       .withMessage("Password does not match account."),
   ]
 }
@@ -116,7 +110,7 @@ validate.checkLoginData = async (req, res, next) => {
   const { account_email } = req.body
   let errors = []
   errors = validationResult(req)
-  if (errors.isEmpty()) {
+  if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
     res.render("account/login", {
       errors,
