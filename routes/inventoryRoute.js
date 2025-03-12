@@ -11,6 +11,8 @@ router.get("/detail/:vehicleId", invController.buildByVehicleId);
 router.get("/cause-error", invController.triggerError)
 // Route to build inventory management view
 router.get("/", invController.buildInvManagement);
+// Route to get JavaScript Inventory file
+router.get("/getInventory/:classification_id", invController.getInventoryJSON)
 // Route to build add-classification view
 router.get("/add-classification", invController.buildAddClass);
 // Route to post new classificaiton to db
@@ -23,5 +25,6 @@ router.post(
     validate.inventoryRules(),
     invController.processAddInventory
 )
+
 
 module.exports = router;

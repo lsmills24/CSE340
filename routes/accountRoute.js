@@ -22,7 +22,7 @@ router.post(
     utilities.handleErrors(accountController.registerAccount)
 )
 // Route to build account management view
-router.get("/", utilities.handleErrors(accountController.buildAcctManagement));
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAcctManagement));
 
 
 module.exports = router;
