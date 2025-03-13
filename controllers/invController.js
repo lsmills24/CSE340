@@ -182,7 +182,7 @@ invCont.addInventory = utilities.handleErrors(async function (req, res) {
         req.flash("notice", "Vehicle added successfully!");
         res.redirect("/inv/");
     } else {
-        throw new Error("Failed to add vehicle to inventory")
+        throw new Error("Failed to add vehicle to inventory.")
     }
   } catch (error) {
     console.error("Error adding inventory:", error);
@@ -282,6 +282,67 @@ invCont.buildEditInventory = utilities.handleErrors(async function (req, res, ne
     classification_id: data.classification_id,
   })
 }) 
+
+
+/* ****************************************
+*  Update inventory in db by calling editInventory in inventory-model
+* *************************************** */
+invCont.updateInventory = utilities.handleErrors(async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body
+  const updateResult = await invModel.updateInventory(
+    inv_id,  
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  )
+
+  if (updateResult) {
+    const itemName = updateResult.inv_make + " " + updateResult.inv_model
+    req.flash("notice", `The ${itemName} was successfully updated.`)
+    res.redirect("/inv/")
+  } else {
+    const classificationSelect = await utilities.buildClassificationList(classification_id)
+    const itemName = `${inv_year} ${inv_make} ${inv_model}`
+    req.flash("notice", "Sorry, the insert failed.")
+    res.status(501).render("inventory/edit-inventory", {
+    title: "Edit " + itemName,
+    nav,
+    classificationSelect: classificationSelect,
+    errors: null,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+    })
+  }
+})
 
 
 

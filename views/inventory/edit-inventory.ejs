@@ -16,7 +16,7 @@
 <% } %>
 
 
-<form action="/inv/edit-inventory" class="login_form" method="post">
+<form action="/inv/update/" id="updateForm" class="login_form" method="post">
     <div id="inv_form">        
         <label for="inv_make">Make:</label>
         <input type="text" id="inv_make" name="inv_make" required value="<%= locals.inv_make %>"><br>
@@ -28,13 +28,13 @@
         <input type="number" id="inv_year" name="inv_year" required placeholder="4-Digit Year" value="<%= locals.inv_year || '' %>"><br>
 
         <label for="inv_description">Description:</label>
-        <textarea id="inv_description" name="inv_description" rows="4" cols="50" required><%= locals.inv_description %></textarea><br>
+        <textarea id="inv_description" name="inv_description" rows="4" cols="50" required><%- locals.inv_description %></textarea><br>
 
         <label for="inv_image">Image:</label>
-        <input type="text" id="inv_image" name="inv_image" placeholder="/images/vehicles/no-image.png" value="<%= locals.inv_image || '/images/vehicles/no-image.png' %>"><br>
+        <input type="text" id="inv_image" name="inv_image" placeholder="/images/vehicles/no-image.png" value="<%- locals.inv_image || '/images/vehicles/no-image.png' %>"><br>
 
         <label for="inv_thumbnail">Thumbnail Image:</label>
-        <input type="text" id="inv_thumbnail" name="inv_thumbnail" placeholder="/images/vehicles/no-image-tn.png" value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"><br>
+        <input type="text" id="inv_thumbnail" name="inv_thumbnail" placeholder="/images/vehicles/no-image-tn.png" value="<%- locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"><br>
 
         <label for="inv_price">Price (USD):</label>
         <input type="number" id="inv_price" name="inv_price" required value="<%= locals.inv_price || '' %>"><br>
@@ -48,5 +48,8 @@
         <label for="classificationList">Classification:</label>
         <%- classificationList %>
     </div>
-    <input type="submit" value="Update Vehicle">
+    <input type="submit" value="Update Vehicle" disabled>
+    <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
 </form>
+
+<script src="../../js/inv-update.js"></script>

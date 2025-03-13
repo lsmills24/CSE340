@@ -23,9 +23,16 @@ router.get("/add-inventory", invController.buildAddInventory)
 router.post(
     "/add-inventory", 
     validate.inventoryRules(),
+    validate.checkInvData,
     invController.processAddInventory
 )
 // Route to build the edit inventory view
 router.get("/edit/:inv_id", invController.buildEditInventory)
+// Route to update existing inventory
+router.post("/update/", 
+    validate.inventoryRules(),
+    validate.checkUpdateData,
+    invController.updateInventory
+)
 
 module.exports = router;
