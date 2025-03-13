@@ -25,6 +25,7 @@ router.post(
     validate.inventoryRules(),
     invController.processAddInventory
 )
-
+// Route to build the edit inventory view
+router.get("/edit/:inv_id", invController.buildEditInventory)
 
 module.exports = router;

@@ -254,6 +254,37 @@ invCont.getInventoryJSON = utilities.handleErrors(async (req, res, next) => {
 })
 
 
+/* ***************************
+ *  Build Edit Inventory view
+ * ************************** */
+invCont.buildEditInventory = utilities.handleErrors(async function (req, res, next) {
+  const invId = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  const data = await invModel.getVehicleByInvId(invId)
+  const classificationList = await utilities.buildClassificationList(data.classification_id);
+  const name = `${data.inv_year} ${data.inv_make} ${data.inv_model}`
+
+  res.render("./inventory/edit-inventory", {
+    title: "Edit " + name,
+    nav,
+    classificationList: classificationList,
+    errors: null,
+    inv_id: data.inv_id,
+    inv_make: data.inv_make,
+    inv_model: data.inv_model,
+    inv_year: data.inv_year,
+    inv_description: data.inv_description,
+    inv_image: data.inv_image, 
+    inv_thumbnail: data.inv_thumbnail, 
+    inv_price: data.inv_price,
+    inv_miles: data.inv_miles,
+    inv_color: data.inv_color,
+    classification_id: data.classification_id,
+  })
+}) 
+
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
