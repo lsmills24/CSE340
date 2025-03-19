@@ -308,6 +308,13 @@ input:required:valid, input:focus:valid, textarea#inv_description:valid, #classi
   box-shadow: 2px 2px 5px #2f3e46;
 }
 
+#delete-warning {
+  margin-top: 8px;
+  color: red;
+  text-decoration: underline;
+  font-size: .8rem;
+}
+
 /********** Management View & New Class/Inv **********/
 .manage_inv { 
   margin: 0 auto;
