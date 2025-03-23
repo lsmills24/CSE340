@@ -25,6 +25,8 @@ router.post(
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAcctManagement));
 // Route to logout of account
 router.get("/logout", utilities.handleErrors(accountController.accountLogout))
+// Route to build account update view
+router.get("/update", utilities.handleErrors(accountController.buildAcctUpdate))
 
 
 module.exports = router;

@@ -147,11 +147,24 @@ async function accountLogout(req, res) {
 async function buildAcctManagement(req, res, next) {
   let nav = await utilities.getNav()
     res.render("./account/management", {
-      title: "Manage Account",
+      title: "Account Management",
       nav,
       errors: null,
   })
 } 
+
+
+/* ****************************************
+ *  Build the account management view
+ * ************************************ */
+async function buildAcctUpdate(req, res, next) {
+  let nav = await utilities.getNav()
+    res.render("./account/update", {
+      title: "Update Account",
+      nav,
+      errors: null,
+  })
+}
 
 
 /* ****************************************
@@ -162,4 +175,4 @@ async function buildAcctManagement(req, res, next) {
 accountController.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, accountLogout, buildAcctManagement }
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, accountLogout, buildAcctManagement, buildAcctUpdate }

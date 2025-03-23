@@ -64,7 +64,13 @@ main {
   /* list-style: upper-roman; */
 }
 
-h1, h2 {
+h1 {
+  margin: 20px 0;
+  text-align: left;
+  font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
+  font-size: 1.75rem;
+}
+h2 {
   margin: 20px 0;
   text-align: left;
   font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
@@ -364,6 +370,14 @@ tbody td a:hover {
 }
 table, tr {
   border: 1px solid #2f3e46;
+}
+
+#update-account {
+  text-align: left;
+}
+.welcome {
+  padding: 0 0 10px 0;
+  text-align: left;
 }
 
 

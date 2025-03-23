@@ -15,4 +15,19 @@
    </ul>
   <% } %>
 
-<br><h1>You're logged in.</h1><br>
+
+<% if (locals.accountData.account_type === "Client") { %> 
+        <h2>Welcome, <%= locals.accountData.account_firstname %>!</h2>
+        <div class="welcome">
+            <p>You're logged in.</p>
+            <p><a href="/account/update">Update Account Information</a></p>
+        </div>
+<% } else if (locals.accountData.account_type === "Employee" || locals.accountData.account_type === "Admin") { %>
+        <h2>Welcome, <%= locals.accountData.account_firstname %>!</h2>
+        <div class="welcome">
+            <p>You're logged in.</p>
+            <p><a href="/account/update">Edit Account Information</a></p>
+            <h2>Inventory Management</h2>
+            <p><a href="/inv/">Manage Inventory</a></p>
+        </div>
+<% } %>
