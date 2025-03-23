@@ -18,11 +18,13 @@ const pool = require("./database/")
 const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
+const jwt = require("jsonwebtoken")
 
 
 /* ***********************
  * Middleware
  * ************************/
+app.use(cookieParser())
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -33,6 +35,25 @@ app.use(session({
   saveUninitialized: true,
   name: 'sessionId',
 }))
+
+// Middleware to set loggedIn status and check jwt
+app.use((req, res, next) => {
+  const token = req.cookies.jwt
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+      res.locals.loggedIn = true
+      res.locals.accountData = decoded // Includes account_id, account_email, and account_type
+    } catch (err) {
+      res.locals.loggedIn = false
+      res.locals.accountData = null
+    }
+  } else {
+    res.locals.loggedIn = false
+    res.locals.accountData = null
+  }
+  next()
+})
 
 //Express Messages Middleware
 app.use(require('connect-flash')())

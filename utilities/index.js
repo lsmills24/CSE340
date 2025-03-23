@@ -145,6 +145,47 @@ Util.checkLogin = (req, res, next) => {
   }
 }
 
+/* ****************************************
+ *  Check account type to allow vehicle access with only admin/employee account
+ * ************************************ */
+Util.checkAccountType = async function (req, res, next) {
+  const token = req.cookies.jwt;
+  if (!token) {
+    req.flash("notice", "Access forbidden. Please log in with an Admin or Employee account to access vehicle management.");
+    return res.status(403).render("account/login", {
+      title: "Login",
+      nav: await Util.getNav(),
+      errors: null,
+      account_email: "",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const accountType = decoded.account_type;
+    if (accountType === "Employee" || accountType === "Admin") {
+      next(); // Allows access
+    } else {
+      req.flash("notice", "Access forbidden. Please use an Admin or Employee account to access vehicle management.");
+      return res.status(403).render("account/login", {
+        title: "Login",
+        nav: await Util.getNav(),
+        errors: null,
+        account_email: decoded.account_email || "",
+      });
+    }
+  } catch (err) {
+    req.flash("notice", "Access forbidden. Please log in with an Admin or Employee account to access vehicle management.");
+    return res.status(403).render("account/login", {
+      title: "Login",
+      nav: await Util.getNav(),
+      errors: null,
+      account_email: "",
+    });
+  }
+};
+
+
 
 /* ****************************************
  * Middleware For Handling Errors

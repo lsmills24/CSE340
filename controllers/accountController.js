@@ -87,18 +87,23 @@ async function accountLogin(req, res) {
   const accountData = await accountModel.getAccountByEmail(account_email)
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.")
-    res.status(400).render("account/login", {
+    return res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
       account_email,
     })
-    return
   }
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
-      delete accountData.account_password
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      delete accountData.account_password // deletes temporary held password
+      const payload = {
+        account_id: accountData.account_id,
+        account_email: accountData.account_email,
+        account_firstname: accountData.account_firstname,
+        account_type: accountData.account_type // ensures account type is recognized and held
+      }
+      const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
       if(process.env.NODE_ENV === 'development') {
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
       } else {
@@ -107,8 +112,8 @@ async function accountLogin(req, res) {
       return res.redirect("/account/")
     }
     else {
-      req.flash("message notice", "Please check your credentials and try again.")
-      res.status(400).render("account/login", {
+      req.flash("notice", "Please check your credentials and try again.")
+      return res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
@@ -116,8 +121,23 @@ async function accountLogin(req, res) {
       })
     }
   } catch (error) {
-    throw new Error('Access Forbidden')
+    req.flash("notice", "Access forbidden. Please try again.")
+    return res.status(403). render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    })
   }
+}
+
+/* ****************************************
+ *  Process logout 
+ * ************************************ */
+async function accountLogout(req, res) {
+    res.clearCookie("jwt") // Clear the session cookie
+    req.flash("notice", "You have been logged out successfully.")
+    res.redirect("/") // returns user to home page (TASK 6)
 }
 
 
@@ -142,4 +162,4 @@ async function buildAcctManagement(req, res, next) {
 accountController.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAcctManagement }
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, accountLogout, buildAcctManagement }
