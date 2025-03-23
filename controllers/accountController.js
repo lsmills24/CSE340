@@ -101,6 +101,7 @@ async function accountLogin(req, res) {
         account_id: accountData.account_id,
         account_email: accountData.account_email,
         account_firstname: accountData.account_firstname,
+        account_lastname: accountData.account_lastname,
         account_type: accountData.account_type // ensures account type is recognized and held
       }
       const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
@@ -163,7 +164,56 @@ async function buildAcctUpdate(req, res, next) {
       title: "Update Account",
       nav,
       errors: null,
+      account_firstname: "",
+      account_lastname: "",
+      account_email: "",
   })
+}
+
+/* ****************************************
+ *  Process the update account info by querying the db
+ * ************************************ */
+async function updateAccount(req, res) {
+  const { account_id, account_firstname, account_lastname, account_email } = req.body;
+  const result = await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email);
+  if (result) {
+    const updatedData = {
+      account_id,
+      account_email,
+      account_firstname,
+      account_lastname,
+      account_type: res.locals.accountData.account_type
+    };
+    const accessToken = jwt.sign(updatedData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
+    res.cookie("jwt", accessToken, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600 * 1000 });
+    req.flash("notice", "Account updated successfully.");
+    res.redirect("/account/");
+  } else {
+    req.flash("notice", "Account update failed.");
+    res.redirect("/account/update");
+  }
+}
+
+/* ****************************************
+ *  Process the update account password by querying the db
+ * ************************************ */
+async function updatePassword(req, res) {
+  const { account_id, account_password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(account_password, 10); // Hash the new password
+    const result = await accountModel.updatePassword(account_id, hashedPassword);
+    if (result) {
+      req.flash("notice", "Password updated successfully.");
+      res.redirect("/account/");
+    } else {
+      req.flash("notice", "Password update failed.");
+      res.redirect("/account/update");
+    }
+  } catch (error) {
+    // console.error("updatePassword error:", error);
+    req.flash("notice", "An error occurred while updating the password.");
+    res.redirect("/account/update");
+  }
 }
 
 
@@ -175,4 +225,4 @@ async function buildAcctUpdate(req, res, next) {
 accountController.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, accountLogout, buildAcctManagement, buildAcctUpdate }
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, accountLogout, buildAcctManagement, buildAcctUpdate, updateAccount, updatePassword }

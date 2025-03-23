@@ -16,4 +16,61 @@
   <% } %>
 
 
-<h2>It worked so far!</h2>
+
+<h2>Account Update</h2>
+<form action="/account/update-acct" class="login_form" method="post">
+    <div id="reg_form">
+        <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+        
+        <label for="account_firstname">First Name</label><br>
+        <input type="text" id="account_firstname" name="account_firstname" required value="<%= locals.account_firstname || locals.accountData.account_firstname || '' %>"><br>
+        
+        <label for="account_lastname">Last Name</label><br>
+        <input type="text" id="account_lastname" name="account_lastname" required value="<%= locals.account_lastname || locals.accountData.account_lastname || '' %>"><br>
+        
+        <label for="account_email">Email Address</label><br>
+        <input type="email" id="account_email" name="account_email" required placeholder="Enter a valid email address" value="<%= locals.account_email || locals.accountData.account_email || '' %>"><br>
+    </div>
+    <input type="submit" value="Update Account">
+</form>
+
+<h2>Change Password</h2>
+<form action="/account/update-pass" class="login_form" method="post">
+    <div id="reg_form">
+        <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+
+        <p>Enter a new password below to change your current password. Your current password will be updated upon submission.</p>
+        <label for="account_password">New Password</label><br>
+        <div class="password-container">
+            <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+            <img src="/images/site/hidden.png" alt="Toggle Password" class="toggle-password" id="togglePassword">
+        </div>
+        <div id="pass_req">
+            <p>Password must meet the following requirements:</p>
+            <ul>
+                <li>At least 12 characters in length</li>
+                <li>At least 1 capital letter</li>
+                <li>At least 1 number</li>
+                <li>At least 1 special character (e.g. !@#)</li>
+            </ul>
+        </div>
+    </div>
+    <input type="submit" value="Change Password">
+</form>
+
+
+
+<script>
+    const passwordInput = document.getElementById("account_password");
+    const toggleIcon = document.getElementById("togglePassword");
+
+    toggleIcon.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.src = "/images/site/hidden.png"; // Eye icon for showing
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.src = "/images/site/hidden.png"; // Your hidden icon
+        }
+    });
+</script>

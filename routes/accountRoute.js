@@ -16,17 +16,33 @@ router.post("/login",
 router.get("/register", utilities.handleErrors(accountController.buildRegister)); 
 // Route to post a new registration & process account validation data
 router.post(
-    "/register", 
-    regValidate.registationRules(),
-    regValidate.checkRegData,
-    utilities.handleErrors(accountController.registerAccount)
+  "/register", 
+  regValidate.registationRules(),
+  regValidate.checkRegData,
+  utilities.handleErrors(accountController.registerAccount)
 )
 // Route to build account management view
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAcctManagement));
 // Route to logout of account
 router.get("/logout", utilities.handleErrors(accountController.accountLogout))
-// Route to build account update view
-router.get("/update", utilities.handleErrors(accountController.buildAcctUpdate))
 
+// Route to build account update view
+router.get("/update", utilities.checkLogin, utilities.handleErrors(accountController.buildAcctUpdate))
+// Route to post update account info
+router.post(
+  "/update-acct",
+  utilities.checkLogin,
+  regValidate.updateRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
+)
+// Route to post update account password
+router.post(
+  "/update-pass",
+  utilities.checkLogin,
+  regValidate.passwordRules(),
+  regValidate.checkPasswordData,
+  utilities.handleErrors(accountController.updatePassword) 
+)
 
 module.exports = router;
