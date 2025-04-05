@@ -14,6 +14,9 @@ async function addReview(review_text, inv_id, account_id) {
     }
 }
 
+/* *****************************
+* Get reviews by ID, AccountID, and InvID
+* ***************************** */
 async function getReviewById(review_id) {
     try {
         const sql = "SELECT * FROM review WHERE review_id = $1"
@@ -24,7 +27,6 @@ async function getReviewById(review_id) {
         return null
     }
 }
-
 async function getReviewsByAccountId(account_id) {
     try {
         const sql = `SELECT r.*, i.inv_make, i.inv_model, i.inv_year, i.inv_thumbnail FROM review r
@@ -38,7 +40,6 @@ async function getReviewsByAccountId(account_id) {
         return []
     }
 }
-
 async function getReviewsByInvId(inv_id) {
     try {
         const sql = `SELECT r.*, a.account_firstname, a.account_lastname FROM review r

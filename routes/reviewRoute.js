@@ -34,4 +34,4 @@ router.get("/delete/:review_id", utilities.checkLogin, utilities.handleErrors(re
 router.post("/delete", utilities.checkLogin, utilities.handleErrors(reviewController.deleteReview))
 
 
-module.exports = router;
+module.exports = router

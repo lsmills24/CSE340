@@ -52,7 +52,6 @@ nav ul {
 
 /********** Main **********/
 main {
-  /* max-width: 95%; */
   margin: 0;
   text-align: center;
 }
@@ -306,12 +305,9 @@ textarea#inv_description, textarea#review_text {
   opacity: 1;
 }
 input:required:invalid, input:focus:invalid, textarea#inv_description:invalid, #classificationList:invalid {
-  /* background: rgba(255, 0, 0, 0.2); */
   box-shadow: 1px 1px 5px rgba(255, 0, 0, 0.6);
 }
 input:required:valid, input:focus:valid, textarea#inv_description:valid, #classificationList:valid {
-  /* background: rgb(0, 128, 0, 0.2); */
-  /* box-shadow: 1px 1px 5px rgba(0, 128, 0, 0.6); */
   box-shadow: 2px 2px 5px #2f3e46;
 }
 
