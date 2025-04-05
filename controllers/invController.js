@@ -57,7 +57,7 @@ invCont.buildByVehicleId = utilities.handleErrors(async function (req, res, next
     nav,
     detail, 
     inv_id,
-    messages: req.flash("notice"),
+    errors: null,
   })
 })
 

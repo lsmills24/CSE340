@@ -68,7 +68,6 @@ Util.buildClassificationGrid = async function(data){
 Util.buildVehicleDetailView = async function (data, accountData) {
   let detail = ''
   if (data) {
-    // Enter HTML with calls to the query results from the inventory table in db
     detail += `<h1>${data.inv_year} ${data.inv_make} ${data.inv_model}</h1>`
     detail += `<section class="vehicle-listing">`
     detail += `<img class="vehicle-image" src="${data.inv_image}" alt="Image of ${data.inv_year} ${data.inv_make} ${data.inv_model}">`
@@ -97,11 +96,15 @@ Util.buildVehicleDetailView = async function (data, accountData) {
       })
     }
 
-    // Check if user is logged in
+    // Add review link with hidden inputs if logged in
     if (accountData) {
+      detail += `<form action="/review/add" method="get" style="display: inline;">`
+      detail += `<input type="hidden" name="inv_id" value="${data.inv_id}">`
+      detail += `<input type="hidden" name="account_id" value="${accountData.account_id}">`
       detail += `<p><a href="/review/add/${data.inv_id}">Add a review</a></p>`
-    } else if (reviews.length === 0) {
-      detail += `<p>No reviews yet. <a href="/account/login">Log in</a> to add one.</p>`
+      detail += `</form>`
+    } else {
+      detail += `<p><a href="/account/login">Log in</a> to add a review.</p>`
     }
 
     detail += `</section>`

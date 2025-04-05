@@ -53,6 +53,32 @@ async function getReviewsByInvId(inv_id) {
     }
 }
 
+/* *****************************
+ * Update review in database
+ * ***************************** */
+async function updateReview(review_id, review_text, account_id) {
+    try {
+        const sql = `UPDATE review SET review_text = $1 WHERE review_id = $2 AND account_id = $3 RETURNING *`
+        const result = await pool.query(sql, [review_text, review_id, account_id])
+        return result.rowCount > 0
+    } catch (error) {
+        console.error("updateReview error:", error)
+        return false
+    }
+}
 
+/* *****************************
+ * Delete review from database
+ * ***************************** */
+async function deleteReview(review_id, account_id) {
+    try {
+        const sql = `DELETE FROM review WHERE review_id = $1 AND account_id = $2 RETURNING *`
+        const result = await pool.query(sql, [review_id, account_id])
+        return result.rowCount > 0
+    } catch (error) {
+        console.error("deleteReview error:", error)
+        return false
+    }
+}
 
-module.exports = { addReview, getReviewById, getReviewsByAccountId, getReviewsByInvId } 
+module.exports = { addReview, getReviewById, getReviewsByAccountId, getReviewsByInvId, updateReview, deleteReview }

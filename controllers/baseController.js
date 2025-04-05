@@ -3,7 +3,7 @@ const baseController = {}
 
 baseController.buildHome = async function(req, res) {
     const nav = await utilities.getNav()
-    req.flash("notice", "This is a flash message.") // "notice" is a class that can be styled in CSS, and the second param is a strong to be displayed
+    // req.flash("notice", "This is a flash message.") // "notice" is a class that can be styled in CSS, and the second param is a strong to be displayed
     res.render("index", {title: "Home", nav})
 }
 

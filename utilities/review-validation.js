@@ -45,5 +45,45 @@ validate.checkReviewData = async (req, res, next) => {
     next()
 }
 
+/* ******************************
+ * Update review data validation rules
+ * ***************************** */
+validate.updateReviewRules = () => {
+    return [
+        body("review_text")
+            .trim()
+            .notEmpty()
+            .withMessage("Review text is required.")
+            .isLength({ min: 1 })
+            .withMessage("Review text must be at least 1 character long."),
+        body("review_id")
+            .isInt({ min: 1 })
+            .withMessage("Invalid review ID."),
+        body("account_id")
+            .isInt({ min: 1 })
+            .withMessage("Invalid account ID."),
+    ]
+}
+
+/* ******************************
+ * Check update data and return errors or continue to update review in db
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+    const { review_text, review_id, account_id } = req.body
+    let errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("./review/update-review", {
+            title: "Edit Review",
+            nav,
+            review_id,
+            review_text,
+            errors,
+        })
+        return
+    }
+    next()
+}
+
 
 module.exports = validate
