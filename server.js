@@ -19,6 +19,7 @@ const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const jwt = require("jsonwebtoken")
+const reviewRoute = require("./routes/reviewRoute")
 
 
 /* ***********************
@@ -84,6 +85,8 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 app.use("/inv", inventoryRoute)
 // Account Route
 app.use("/account", accountRoute)
+// Review Route
+app.use("/review", reviewRoute)
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: "Oops! Don't know how you got here but umm..."})

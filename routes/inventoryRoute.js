@@ -24,7 +24,7 @@ router.get("/add-classification", utilities.checkAccountType, utilities.handleEr
 router.post("/add-classification", utilities.checkAccountType, utilities.handleErrors(invController.addClassification))
 // Route to build add-inventory view
 router.get("/add-inventory", utilities.checkAccountType, utilities.handleErrors(invController.buildAddInventory))
-// Route to post a new registration & process account validation data
+// Route to post a new registration & process inv validation data
 router.post(
     "/add-inventory", 
     utilities.checkAccountType, 

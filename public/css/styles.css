@@ -102,7 +102,8 @@ h3 {
   font-family: Jura, 'Josefin Sans', 'Open Sans', Arial;
   line-height: 1rem;
   font-size: 1.25rem;
-  margin: 10px 10px 0 0;
+  margin: 10px 10px 12.5px 0;
+  text-align: left;
 }
 .button {
   display: inline-block;
@@ -220,7 +221,7 @@ h3 {
   font-family: 'Open Sans', Arial, 'Times New Roman';
 }
 .login_form input[type=submit] {
-  margin: 12.5px 0 0 0;
+  margin: 12.5px 0 0 25px;
   padding: 3px 25px;
   text-align: center;
   background-color: #2f3e46;
@@ -239,7 +240,7 @@ select {
   border: 2px solid #2f3e46;
   border-radius: 8px;
 }
-textarea#inv_description {
+textarea#inv_description, textarea#review_text {
   width: 100%; 
   max-width: 500px;
   height: 100px; 
@@ -327,6 +328,7 @@ input:required:valid, input:focus:valid, textarea#inv_description:valid, #classi
   margin-bottom: 100px;
   list-style: none;
   width: 400px;
+  text-align: center;
 }
 .manage_inv li {
   margin: 25px;
@@ -377,6 +379,22 @@ table, tr {
 }
 .welcome {
   padding: 0 0 10px 0;
+  text-align: left;
+}
+
+/********** Review View **********/
+.review-list {
+  margin-bottom: 10px;
+}
+.review-list p {
+  margin: 0px;
+  text-align: left;
+}
+.review-list img {
+  float: left;
+  margin-right: 10px;
+}
+.vehicle-reviews {
   text-align: left;
 }
 

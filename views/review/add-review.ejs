@@ -1,0 +1,35 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+
+<%- messages() %>
+
+<% if (!locals.accountData) { %>
+    <p>Please <a href="/account/login">log in</a> to write a review.</p>
+<% } else { %>
+
+    <% if (errors) { %>
+        <ul class="notice">
+    <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+    <%  }) %>
+    </ul>
+    <% } %>
+
+    <form action="/review/add" class="login_form" method="post"> 
+        <div id="reg_form">
+            <input type="hidden" name="inv_id" value="<%= inv_id %>">
+            <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
+
+            <!-- Display "Screen Name" with first initial and last name with no spaces -->
+            <p>Screen Name: <%= locals.accountData.account_firstname.charAt(0) + locals.accountData.account_lastname %></p>
+
+            <label for="review_text">Tell us what you think!</label><br>
+            <textarea id="review_text" name="review_text" rows="4" cols="50" required><%= locals.review_text || '' %></textarea><br>        </div>
+        <input type="submit" value="Submit Review"> 
+    </form> 
+
+<% } %>

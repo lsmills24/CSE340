@@ -7,19 +7,6 @@ const invCont = {}
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
-// invCont.buildByClassificationId = utilities.handleErrors(async function (req, res, next) {
-//   const classification_id = req.params.classificationId
-//   const data = await invModel.getInventoryByClassificationId(classification_id)
-//   const grid = await utilities.buildClassificationGrid(data)
-//   let nav = await utilities.getNav()
-//   const className = data[0].classification_name
-//   res.render("./inventory/classification", {
-//     title: className + " vehicles",
-//     nav,
-//     grid,
-//     errors: null,
-//   })
-// }) 
 invCont.buildByClassificationId = utilities.handleErrors(async function (req, res, next) {
   const classification_id = req.params.classificationId;
   try { 
@@ -52,14 +39,15 @@ invCont.buildByClassificationId = utilities.handleErrors(async function (req, re
  *  Build vehicle details by Id number
  * ************************** */
 invCont.buildByVehicleId = utilities.handleErrors(async function (req, res, next) {
-  const inv_id = req.params.vehicleId 
+  const inv_id = parseInt(req.params.vehicleId)
   const data = await invModel.getVehicleByInvId(inv_id)
 
   if (!data) {
-    return next({ status: 404 })// , message: "Vehicle Not Found" })
+    req.flash("notice", "Vehicle not found.")
+    return res.redirect("/inv/")
   }
 
-  const detail = await utilities.buildVehicleDetailView(data)
+  const detail = await utilities.buildVehicleDetailView(data, res.locals.accountData)
   let nav = await utilities.getNav()
   const vehicleMake = data.inv_make
   const vehicleModel = data.inv_model
@@ -67,7 +55,9 @@ invCont.buildByVehicleId = utilities.handleErrors(async function (req, res, next
   res.render("./inventory/detail", {
     title: vehicleYear + " " + vehicleMake + " " + vehicleModel,
     nav,
-    detail,
+    detail, 
+    inv_id,
+    messages: req.flash("notice"),
   })
 })
 

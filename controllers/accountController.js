@@ -147,10 +147,14 @@ async function accountLogout(req, res) {
  * ************************************ */
 async function buildAcctManagement(req, res, next) {
   let nav = await utilities.getNav()
-    res.render("./account/management", {
-      title: "Account Management",
-      nav,
-      errors: null,
+  const account_id = res.locals.accountData.account_id
+  const reviews = await require("../models/review-model").getReviewsByAccountId(account_id)
+  console.log("Reviews for account_id", account_id, ":", reviews); // To debug reviews log
+  res.render("./account/management", {
+    title: "Account Management",
+    nav,
+    reviews,
+    errors: null,
   })
 } 
 

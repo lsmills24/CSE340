@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const reviewModel = require("../models/review-model")
 const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -64,24 +65,47 @@ Util.buildClassificationGrid = async function(data){
 /* **************************************
 * Build the details view HTML
 * ************************************ */
-Util.buildVehicleDetailView = async function(data){
+Util.buildVehicleDetailView = async function (data, accountData) {
   let detail = ''
-  if(data){
+  if (data) {
     // Enter HTML with calls to the query results from the inventory table in db
     detail += `<h1>${data.inv_year} ${data.inv_make} ${data.inv_model}</h1>`
     detail += `<section class="vehicle-listing">`
-    detail += `<img class="vehicle-image" src="${data.inv_image}" alt="Image of ${data.inv_year} ${data.inv_make} ${data.inv_model}">` // Full size img inv_image
+    detail += `<img class="vehicle-image" src="${data.inv_image}" alt="Image of ${data.inv_year} ${data.inv_make} ${data.inv_model}">`
     detail += `<div class="vehicle-details">`
-    detail += `<h2 class="vehicle-price">Sale Price: $${new Intl.NumberFormat('en-US').format(data.inv_price)}</h2>` // Price inv_price
+    detail += `<h2 class="vehicle-price">Sale Price: $${new Intl.NumberFormat('en-US').format(data.inv_price)}</h2>`
     detail += `<p><b>Year:</b> ${data.inv_year}</p>`
     detail += `<p><b>Make:</b> ${data.inv_make}</p>`
     detail += `<p><b>Model:</b> ${data.inv_model}</p>`
-    detail += `<p><b>Mileage:</b> ${new Intl.NumberFormat('en-US').format(data.inv_miles)}</p>` // Mileage inv_miles
-    detail += `<p><b>Color:</b> ${data.inv_color}</p>` // Color inv_color
-    detail += `<p><b>Seller's Description:</b> ${data.inv_description}</p>` // Description inv_description 
+    detail += `<p><b>Mileage:</b> ${new Intl.NumberFormat('en-US').format(data.inv_miles)}</p>`
+    detail += `<p><b>Color:</b> ${data.inv_color}</p>`
+    detail += `<p><b>Seller's Description:</b> ${data.inv_description}</p>`
     detail += `</div>`
     detail += `</section>`
-  } else { 
+
+    // Review section
+    detail += `<hr>`
+    detail += `<h3>Reviews</h3>`
+    detail += `<section class="vehicle-reviews">`
+    const reviews = await reviewModel.getReviewsByInvId(data.inv_id)
+    if (reviews.length > 0) {
+      reviews.forEach(review => {
+        detail += `<div class="review-list">`
+        detail += `<p><strong>${review.account_firstname.charAt(0) + review.account_lastname}</strong> on ${new Date(review.review_date).toLocaleDateString()}:</p>`
+        detail += `<p>${review.review_text}</p>`
+        detail += `</div>`
+      })
+    }
+
+    // Check if user is logged in
+    if (accountData) {
+      detail += `<p><a href="/review/add/${data.inv_id}">Add a review</a></p>`
+    } else if (reviews.length === 0) {
+      detail += `<p>No reviews yet. <a href="/account/login">Log in</a> to add one.</p>`
+    }
+
+    detail += `</section>`
+  } else {
     detail += '<p class="notice">Sorry, we could not find details for this vehicle.</p>'
   }
   return detail

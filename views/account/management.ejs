@@ -31,3 +31,18 @@
             <p><a href="/inv/">Manage Inventory</a></p>
         </div>
 <% } %>
+
+<h3>Your Reviews</h3>
+<% if (reviews.length > 0) { %>
+    <% reviews.forEach(review => { %>
+        <div class="review-list">
+            <img src="<%- review.inv_thumbnail %>" alt="<%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %>" width="100">
+            <p><strong><%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %></strong></p>
+            <p><%= review.review_text %></p>
+            <p>From: <%= new Date(review.review_date).toLocaleDateString() %></p>
+            <p><a href="/review/edit/<%= review.review_id %>">Edit</a> | <a href="/review/delete/<%= review.review_id %>">Delete</a></p>
+        </div>
+    <% }) %>
+<% } else  { %>
+    <p class="review-list">No reviews yet.</p>
+<% } %>
